@@ -18,14 +18,17 @@ var IS = {
             if(callNow) func.apply(context, args);
         };
     },
+    //ensure imgWidth <= leftWidth
     imgLTleft: function(){
         var left = $('#left-content'),
             img = $('#main-img'),
             leftWidth = left.width(),
             imgWidth = img.width();
-        if(imgWidth > leftWidth){
+        if(imgWidth >= leftWidth){
             var IW = new Array(leftWidth, 'px');
             img.css('width', IW.join(''));
+        }else{
+            img.css('width', '100%');
         }
     },
 };
@@ -53,9 +56,7 @@ var IS = {
     });
 })(jQuery);
 
-
-
-
+//注册resize事件
 (function($){
     if(document.addEventListener){ //for firefox and chrome
         window.addEventListener('resize', IS.debounce(function(event){
