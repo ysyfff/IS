@@ -1,10 +1,9 @@
-var IS = {};
-
-IS.imgMiddle = function(){
-    var width = new Array($('#main-img').width(), 'px');
-    $('#is-img-inner').css('width', width.join(''));
-}
-
+var IS = {
+   imgMiddle: function(){
+        var width = new Array($('#main-img').width(), 'px');
+        $('#is-img-inner').css('width', width.join(''));
+    },
+};
 
 (function($){
     $('#is-nav').delegate('li', 'click', function(){
