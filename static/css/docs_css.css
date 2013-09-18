@@ -58,6 +58,7 @@ box-shadow: inset 0 3px 8px rgba(0,0,0,0.8);
 .is-middle[class]{display: table-cell; vertical-align: middle; position: static;}
 
 .is-hand-inner{ position: relative; top:-50%; margin: 0 auto; width: 30px;}
+.is-img-inner{ position: relative; top:-50%; margin: 0 auto;}
 
 .navbar .navbar-header>a, .navbar .navbar-header>a:hover{
     font-size: 35px;
@@ -83,6 +84,7 @@ box-shadow: inset 0 3px 8px rgba(0,0,0,0.8);
     min-width: 800px;
     /*background-color: blue;*/
 }
+
 .left-hand, .right-hand{
     position: absolute;
     top: 0;
@@ -90,13 +92,31 @@ box-shadow: inset 0 3px 8px rgba(0,0,0,0.8);
     width: 40px;
     background-color: rgba(0,0,0,0.125);
     cursor: pointer;
+    z-index: 1000;
 }
+
 .left-hand{
     left: 0;
 }
+
 .right-hand{
     right: 0;
 }
+
+.left-left-hand, .right-right-hand{
+    font-size: 30px;
+    color:rgba(0,0,0,0.5);
+}
+
+.img-area{
+    position: absolute;
+    top:0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+}
+
 .right-content{
     position: absolute;
     top:0;
@@ -105,9 +125,4 @@ box-shadow: inset 0 3px 8px rgba(0,0,0,0.8);
     width: 20%;
     min-width: 200px;
     /*background-color: red;*/
-}
-
-.left-left-hand, .right-right-hand{
-    font-size: 30px;
-    color:rgba(0,0,0,0.5);
 }
