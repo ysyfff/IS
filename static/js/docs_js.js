@@ -19,7 +19,7 @@ var IS = {
         };
     },
     //ensure imgWidth <= leftWidth
-    imgLTleft: function(){
+    smallerImg: function(){
         var left = $('#left-content'),
             img = $('#main-img'),
             leftWidth = left.width(),
@@ -60,13 +60,21 @@ var IS = {
 (function($){
     if(document.addEventListener){ //for firefox and chrome
         window.addEventListener('resize', IS.debounce(function(event){
-            IS.imgLTleft();
+            IS.smallerImg();
         }, 300), false);
     }else if(window.attachEvent){ //for ie
         window.attachEvent('onresize', IS.debounce(function(event){
-            IS.imgLTleft();
+            IS.smallerImg();
         }, 300));
     }
+})(jQuery);
+
+$(function($){
+    $('#roll-area').mouseenter(function(){
+        $(this).addClass('show-y');
+    }).mouseleave(function(){
+        $(this).removeClass('show-y');
+    });
 })(jQuery);
 
 

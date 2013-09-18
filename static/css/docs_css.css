@@ -9,7 +9,9 @@
 }
 
 body{
+    min-width: 1000px;
     background: url('/static/img/bg.gif/');
+    overflow: hidden;
 }
 
 
@@ -128,4 +130,34 @@ box-shadow: inset 0 3px 8px rgba(0,0,0,0.8);
     width: 20%;
     min-width: 200px;
     /*background-color: red;*/
+}
+
+.roll-area{
+    position: relative;
+    width: 200px;
+    margin: 0 auto;
+    min-width: 200px;
+    height: 100%;
+    background-color: rgba(0,0,0,0.125);
+   
+}
+
+.roll-area ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.roll-area ul>li{
+    padding: 0 4px 4px 4px;
+    float: left;
+}
+
+.roll-area ul>li img{
+    width: 192px;
+    height: 100px;
+}
+
+.show-y{
+    overflow-y: auto;
+    overflow-x: hidden; 
 }
