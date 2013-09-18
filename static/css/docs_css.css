@@ -1,6 +1,11 @@
+.navbar{
+    min-height: 40px;
+}
 .navbar-static-top .container, .navbar-fixed-top .container,
 .navbar-fixed-bottom .container, .container{
     width: 100%;
+    max-width: 100%;
+    min-width: 100%;
 }
 
 body{
@@ -26,6 +31,7 @@ box-shadow: inset 0 3px 8px rgba(0,0,0,0.8);
     text-shadow:none;
     font-size: 16px;
     padding: 8px 10px;
+    color:#555;
 }
 
 
@@ -45,6 +51,14 @@ box-shadow: inset 0 3px 8px rgba(0,0,0,0.8);
  *DATE: 2013-9-17
  *AUTHOR: Yin Shiyong
  */
+.is-outer{ position: relative; width: 100%; height: 100%; overflow: hidden;}
+.is-outer[class]{display: table; position: static;}
+
+.is-middle{ position: absolute; top: 50%;}
+.is-middle[class]{display: table-cell; vertical-align: middle; position: static;}
+
+.is-hand-inner{ position: relative; top:-50%; margin: 0 auto; width: 30px;}
+
 .navbar .navbar-header>a, .navbar .navbar-header>a:hover{
     font-size: 35px;
     line-height: 40px;
@@ -58,7 +72,6 @@ box-shadow: inset 0 3px 8px rgba(0,0,0,0.8);
     bottom: 0;
     left: 0;
     width: 100%;
-    background-color: rgba(0, 0, 255, 0.2);
 }
 
 .left-content{
@@ -68,9 +81,22 @@ box-shadow: inset 0 3px 8px rgba(0,0,0,0.8);
     left: 0;
     width: 80%;
     min-width: 800px;
-    background-color: blue;
+    /*background-color: blue;*/
 }
-
+.left-hand, .right-hand{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 40px;
+    background-color: rgba(0,0,0,0.125);
+    cursor: pointer;
+}
+.left-hand{
+    left: 0;
+}
+.right-hand{
+    right: 0;
+}
 .right-content{
     position: absolute;
     top:0;
@@ -78,5 +104,10 @@ box-shadow: inset 0 3px 8px rgba(0,0,0,0.8);
     right: 0;
     width: 20%;
     min-width: 200px;
-    background-color: red;
+    /*background-color: red;*/
+}
+
+.left-left-hand, .right-right-hand{
+    font-size: 30px;
+    color:rgba(0,0,0,0.5);
 }

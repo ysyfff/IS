@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="{{STATIC_URL}}tool/css/bootstrap.min.css">
-<link rel="stylesheet" href="{{STATIC_URL}}tool/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="{{STATIC_URL}}tool/css/bootstrap.css">
+<link rel="stylesheet" href="{{STATIC_URL}}tool/css/bootstrap-theme.css">
 <link rel="stylesheet" href="{{STATIC_URL}}css/docs_css.css">
 </head>
 <body>
@@ -35,13 +35,35 @@
     </header>
     <div class="container">
       <div class="main-content">
-        <div class="left-content"></div>
+        <div class="left-content">
+          <div class="left-hand" id="left-hand">
+            <div class="is-outer">
+              <div class="is-middle">
+                <div class="is-hand-inner">
+                  <span class="glyphicon glyphicon-hand-left left-left-hand"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="right-hand" id="right-hand">
+            <div class="is-outer">
+              <div class="is-middle">
+                <div class="is-hand-inner">
+                  <span class="glyphicon glyphicon-hand-right right-right-hand"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="img-area"></div>
+        </div>
         <div class="right-content"></div>
       </div>  
     </div>
-    
+
+
+  
     <script src="{{STATIC_URL}}tool/js/jquery-1.10.2.min.js"></script>
-    <script src="{{STATIC_URL}}tool/js/bootstrap.min.js"></script>
+    <script src="{{STATIC_URL}}tool/js/bootstrap.js"></script>
     <script src="{{STATIC_URL}}js/docs_js.js"></script>
 </body>
 </html>
