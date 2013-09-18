@@ -1,0 +1,117 @@
+<html>
+<head>
+</head>
+<body>
+
+    <script src="jquery-1.10.2.js"></script>
+    <script>
+/*    //我们可以定义一个构造器，并扩充它的原型(prototype)
+    var Animal = function(name){
+        this.name = name;
+    }
+    Animal.prototype.get_name = function(){
+        return this.name;
+    }
+    Animal.prototype.says = function(){
+        return this.saying || '';
+    }
+
+    //我们现在可以定义一个伪类来继承Animal
+    var Cat = function(name){
+        this.name = name;
+        this.saying = 'neow';
+    }
+    Cat.prototype = new Animal();
+    Cat.prototype.purr = function(){
+        return 'miao miao ...';
+    }
+    Cat.prototype.get_name = function(){
+        return this.says() + ' ' + this.name;
+    }
+
+    //使用Cat
+    var myCat = new Cat('SuJian');
+    var says = myCat.says();
+    var purr = myCat.purr();
+    var name = myCat.get_name();
+    console.log(says);
+    console.log(purr);
+    console.log(name);*/
+    Function.prototype.method = function(name, func){
+        this.prototype[name] = func;
+        return this;
+    }
+    
+    if(typeof Object.beget !== 'function'){
+        Object.prototype.beget = function(o){
+            var F = function(){};
+            F.prototype = o;
+            return new F();
+        }
+    }
+    /*//先用对象字面量去构造一个有用的对象
+    var Animal = {
+        name: 'Shiyong Yin',
+        get_name: function(){
+            return this.name;
+        },
+        says: function(){
+            return this.saying || ' ';
+        }
+    }
+    //利用Object.beget方法构造出更多实例
+    var Cat = Object.beget(Animal);
+    Cat.name = 'SuJian';
+    Cat.saying = 'neow';
+    Cat.purr = function(){
+        return 'miao miao ...';
+    };
+    Cat.get_name = function(){
+        return this.says() + ' ' + this.name;
+    };
+    var says = Cat.says();
+    var purr = Cat.purr();
+    var name = Cat.get_name();
+    console.log(says);
+    console.log(purr);
+    console.log(name);*/
+
+    //name和saying属性正在是完全私有的。它们只有通过get_name和says两个特权方法才可以访问
+    var animal = function(spec){
+        var that = {};
+        that.get_name = function(){
+            return spec.name;
+        };
+        that.says = function(){
+            return spec.saying || ' ';
+        };
+        return that;
+    }
+    Object.method('superior', function(name){
+        var that = this, method = that[name];
+        return function(){
+            return method.apply(that, arguments);
+        };
+    });
+    //构造新的实例
+    var cat = function(spec){
+        spec.saying = spec.saying || 'meow';
+        var that = animal(spec);
+        var super__get_name = that.superior('get_name');
+        that.purr = function(){
+            return 'miao miao ...';
+        };
+        that.get_name = function(){
+            return 'like ' + super__get_name() + ' baby';
+        };
+        return that;
+    }
+    var myCat = cat({name: 'Nimei'});
+    var name = myCat.get_name();
+    console.log(name);
+    
+    </script>
+</body>
+</html>
+
+
