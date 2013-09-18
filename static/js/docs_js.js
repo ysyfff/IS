@@ -1,7 +1,32 @@
 var IS = {
-   imgMiddle: function(){
+    imgMiddle: function(){
         var width = new Array($('#main-img').width(), 'px');
         $('#is-img-inner').css('width', width.join(''));
+    },
+    //resize防抖
+    debounce: function(func, wait, immediate){
+        var timeout;
+        return function(){
+            var context = this, args = arguments;
+            var later = function(){
+                timeout = null;
+                if(!immediate) func.apply(context, args);
+            };
+            var callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if(callNow) func.apply(context, args);
+        };
+    },
+    imgLTleft: function(){
+        var left = $('#left-content'),
+            img = $('#main-img'),
+            leftWidth = left.width(),
+            imgWidth = img.width();
+        if(imgWidth > leftWidth){
+            var IW = new Array(leftWidth, 'px');
+            img.css('width', IW.join(''));
+        }
     },
 };
 
@@ -27,4 +52,21 @@ var IS = {
         })
     });
 })(jQuery);
+
+
+
+
+(function($){
+    if(document.addEventListener){ //for firefox and chrome
+        window.addEventListener('resize', IS.debounce(function(event){
+            IS.imgLTleft();
+        }, 300), false);
+    }else if(window.attachEvent){ //for ie
+        window.attachEvent('onresize', IS.debounce(function(event){
+            IS.imgLTleft();
+        }, 300));
+    }
+})(jQuery);
+
+
 
