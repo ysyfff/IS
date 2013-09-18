@@ -1,14 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="{{STATIC_URL}}tools/css/bootstrap.min.css">
-<link rel="stylesheet" href="{{STATIC_URL}}tools/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="{{STATIC_URL}}tool/css/bootstrap.min.css">
+<link rel="stylesheet" href="{{STATIC_URL}}tool/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="{{STATIC_URL}}css/docs_css.css">
 </head>
 <body>
-    zhe
-    <script src="{{STATIC_URL}}tools/js/jquery-1.10.2.min.js"></script>
-    <script src="{{STATIC_URL}}tools/js/bootstrap.min.js"></script>
+   <header class="navbar navbar-fixed-top" role="banner">
+      <div class="container">
+        <div class="navbar-header">
+            <a href="#" class="logo">I.S.</a>
+        </div>
+        <ul class="nav navbar-nav" id='is-nav'>
+            <li>
+              <a href="#" class="navbar-brand">Bootstrap</a>
+            </li>
+            <li>
+              <a href="#">Getting started</a>
+            </li>
+            <li class="active">
+              <a href="#">CSS</a>
+            </li>
+            <li>
+              <a href="#">Components</a>
+            </li>
+            <li>
+              <a href="#">JavaScript</a>
+            </li>
+            <li>
+              <a href="#">Customize</a>
+            </li>
+        </ul>
+      </div>
+    </header>
+    <div class="container">
+      <div class="main-content">
+        <div class="left-content"></div>
+        <div class="right-content"></div>
+      </div>  
+    </div>
+    
+    <script src="{{STATIC_URL}}tool/js/jquery-1.10.2.min.js"></script>
+    <script src="{{STATIC_URL}}tool/js/bootstrap.min.js"></script>
     <script src="{{STATIC_URL}}js/docs_js.js"></script>
 </body>
 </html>
