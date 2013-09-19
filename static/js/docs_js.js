@@ -234,8 +234,8 @@ var IS = {
         nSee = parseInt(height/iHeight),
         nImg = ul.find('li').length,
         nPart = parseInt(nImg/nSee),
-        curPart = 0, begin=0, bb,
-        cc, dd, upest = (nSee - nImg)*iHeight;
+        curPart = 0, begin=0,
+        upest = (nSee - nImg)*iHeight;
         if(nSee == height/iHeight) nSee = nSee-2;
         else nSee = nSee-1;
     ul.delegate('li', 'click', function(){
