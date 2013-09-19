@@ -234,7 +234,7 @@ var IS = {
         nSee = parseInt(height/iHeight),
         nImg = ul.find('li').length,
         nPart = parseInt(nImg/nSee),
-        curPart = 0, b, c, d, begin=0, bb,
+        curPart = 0, begin=0, bb,
         cc, dd, upest = (nSee - nImg)*iHeight;
         if(nSee == height/iHeight) nSee = nSee-2;
         else nSee = nSee-1;
@@ -243,58 +243,53 @@ var IS = {
             nCurr = the.data('seq'),
             inPart = parseInt(nCurr/nSee);
 
+        //cal the common param
+        var b = begin*iHeight,
+            c = (nCurr-begin)*iHeight,
+            d = iHeight;
+
+        //cal bb up
+        var bbu = (nSee-nCurr)*iHeight,
+            ccu = (1-nSee)*iHeight,
+            ddu = iHeight;
+        if(bbu+ccu<upest){
+            bbu = upest-ccu;
+        }
+
+        //cal bb down
+        var bbd = -nCurr*iHeight,
+            ccd = nSee*iHeight,
+            ddd = iHeight;
+        if(bbd+ccd>0){
+            ccd = 0-bbd;
+        }
+
+
         if(inPart == curPart){//rm hover or rm ul up
             //rm hover
-            b = begin*iHeight;
-            c = (nCurr-begin)*iHeight;
-            d = iHeight;
             var mv = 0;
             if(nCurr > 0){// in the same area
                 var curTop = tmp.css('top');
                 //at top
                 if((new Array(0-nCurr*iHeight, 'px')).join('') == curTop){
                     mv = 1;
-                    bb = -nCurr*iHeight;
-                    cc = nSee*iHeight;
-                    if(bb+cc>0){
-                        cc = 0-bb;
-                    }
-                    dd = iHeight;
+                    IS.run(0, b, c, d, hover, mv, 0, bbd, ccd, ddd, tmp);
+                }
+                //at bottom
+                if((new Array(0-(nCurr-5)*iHeight, 'px')).join('') == curTop){
+                    mv = 1;
+                    IS.run(0, b, c, d, hover, mv, 0, bbu, ccu, ddu, tmp);
                 }
             }
-
-            IS.run(0, b, c, d, hover, mv, 0, bb, cc, dd, tmp);
+            if(!mv) IS.run(0, b, c, d, hover);
             begin = nCurr;
         }else if(inPart > curPart){//rm ul up
             curPart = inPart;
-            b = begin*iHeight;
-            c = (nCurr-begin)*iHeight;
-            d = iHeight;
-
-            bb = (nSee-nCurr)*iHeight;
-            cc = (1-nSee)*iHeight;
-            if(bb+cc<upest){
-                bb = upest-cc;
-            }
-            dd = iHeight;
-
-            IS.run(0, b, c, d, hover, 0, 0, bb, cc, dd, tmp);
+            IS.run(0, b, c, d, hover, 0, 0, bbu, ccu, ddu, tmp);
             begin = nCurr;
         }else if(inPart < curPart){//rm ul down
             curPart = inPart;
-
-            b = begin*iHeight;
-            c = (nCurr-begin)*iHeight;
-            d = iHeight;
-
-            bb = -nCurr*iHeight;
-            cc = nSee*iHeight;
-            if(bb+cc>0){
-                cc = 0-bb;
-            }
-            dd = iHeight;
-console.log(t, b, c, d, el, mv, tt, bb, cc, dd, ell);
-            IS.run(0, b, c, d, hover, 0, 0, bb, cc, dd, tmp);
+            IS.run(0, b, c, d, hover, 0, 0, bbd, ccd, ddd, tmp);
             begin = nCurr;
         }
     });
