@@ -250,6 +250,7 @@ var IS = {
 //rmHover的事件委托 复杂版
 (function($){
     var iHeight = 104,
+        duration = iHeight/2,
         mainImg = $('#is-img-inner'),
         main = $('#main-img'),
         area = $('#roll-area'),
@@ -276,12 +277,12 @@ var IS = {
         //cal the common param
         var b = begin*iHeight,
             c = (nCurr-begin)*iHeight,
-            d = iHeight;
+            d = duration;
 
         //cal bb up
         var bbu = (nSee-nCurr)*iHeight,
             ccu = (1-nSee)*iHeight,
-            ddu = iHeight;
+            ddu = duration;
         if(bbu+ccu<upest){
             bbu = upest-ccu;
         }
@@ -289,7 +290,7 @@ var IS = {
         //cal bb down
         var bbd = -nCurr*iHeight,
             ccd = nSee*iHeight,
-            ddd = iHeight;
+            ddd = duration;
         if(bbd+ccd>0){
             ccd = 0-bbd;
         }
