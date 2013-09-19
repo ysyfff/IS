@@ -164,14 +164,17 @@ var IS = {
             img.css('width', '100%');
         }
     },
-    run: function(t, b, c, d, el, tt, bb, cc, dd, ell){
+    run: function(t, b, c, d, el, mv, tt, bb, cc, dd, ell){
+        console.log(t, b, c, d, el, mv, tt, bb, cc, dd, ell);
         var topDis = new Array($.easing.easeOutBounce(t,b,c,d), 'px');
         el.css('top', topDis.join(''));
         if(t < d){
             t++;
-            setTimeout(function(){IS.run(t,b,c,d,el,tt,bb,cc,dd,ell)}, 10);
+            setTimeout(function(){IS.run(t,b,c,d,el,mv,tt,bb,cc,dd,ell)}, 10);
         }else if(ell){
             IS.runUL(tt, bb, cc, dd, ell);
+        }else if(mv){
+             IS.runUL(tt, bb, cc, dd, ell);
         }
     },
     runUL: function(tt, bb, cc, dd, ell){
@@ -245,26 +248,23 @@ var IS = {
             b = begin*iHeight;
             c = (nCurr-begin)*iHeight;
             d = iHeight;
-
-            IS.run(0, b, c, d, hover);
-            begin = nCurr;
-
+            var mv = 0;
             if(nCurr > 0){// in the same area
                 var curTop = tmp.css('top');
                 //at top
                 if((new Array(0-nCurr*iHeight, 'px')).join('') == curTop){
-                    
+                    mv = 1;
                     bb = -nCurr*iHeight;
                     cc = nSee*iHeight;
                     if(bb+cc>0){
                         cc = 0-bb;
                     }
                     dd = iHeight;
-
-                    IS.runUL( 0, bb, cc, dd, tmp);
-                    begin = nCurr;
                 }
             }
+
+            IS.run(0, b, c, d, hover, mv, 0, bb, cc, dd, tmp);
+            begin = nCurr;
         }else if(inPart > curPart){//rm ul up
             curPart = inPart;
             b = begin*iHeight;
@@ -278,7 +278,7 @@ var IS = {
             }
             dd = iHeight;
 
-            IS.run(0, b, c, d, hover, 0, bb, cc, dd, tmp);
+            IS.run(0, b, c, d, hover, 0, 0, bb, cc, dd, tmp);
             begin = nCurr;
         }else if(inPart < curPart){//rm ul down
             curPart = inPart;
@@ -293,8 +293,8 @@ var IS = {
                 cc = 0-bb;
             }
             dd = iHeight;
-
-            IS.run(0, b, c, d, hover, 0, bb, cc, dd, tmp);
+console.log(t, b, c, d, el, mv, tt, bb, cc, dd, ell);
+            IS.run(0, b, c, d, hover, 0, 0, bb, cc, dd, tmp);
             begin = nCurr;
         }
     });
