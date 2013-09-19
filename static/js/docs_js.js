@@ -31,6 +31,7 @@ var IS = {
             img.css('width', '100%');
         }
     },
+    
 };
 
 //nav的事件委托
@@ -69,13 +70,34 @@ var IS = {
     }
 })(jQuery);
 
-$(function($){
-    $('#roll-area').mouseenter(function(){
-        $(this).addClass('show-y');
-    }).mouseleave(function(){
-        $(this).removeClass('show-y');
+//rmHover的事件委托
+(function($){
+    var iHeight = 104,
+        area = $('#roll-area'),
+        tmp = $('#roll-tmp'),
+        ul = $('#roll-ul'),
+        hover = $('#curr-img-hover'),
+        height = area.height(),
+        nSee = parseInt(height/iHeight),
+        nImg = ul.find('li').length,
+        nPart = parseInt(nImg/nSee),
+        curPart = 0;
+        tmp.css('top', '-124px');
+    ul.delegate('li', 'click', function(){
+        var the = $(this),
+            nCurr = the.data('seq'),
+            inPart = parseInt(nCurr/nSee);
+
+        if(inPart == curPart){//just rm hover
+            console.log(curPart, 'hover');
+            var topDis = new Array(nCurr*104, 'px');
+            hover.css('top', topDis.join(''));
+        }else if(inPart > curPart){//rm down ul
+            curPart = inPart;
+            console.log(curPart, 'down');
+        }else if(inPart < curPart){//rm up ul
+            curPart = inPart;
+            console.log(curPart, 'up');
+        }
     });
 })(jQuery);
-
-
-

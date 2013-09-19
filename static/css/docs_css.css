@@ -1,5 +1,6 @@
 .navbar{
     min-height: 40px;
+    z-index: 3000;
 }
 .navbar-static-top .container, .navbar-fixed-top .container,
 .navbar-fixed-bottom .container, .container{
@@ -132,7 +133,11 @@ box-shadow: inset 0 3px 8px rgba(0,0,0,0.8);
     /*background-color: red;*/
 }
 
-.roll-area{
+#roll-tmp{
+    position: absolute;
+}
+
+.roll-area{    
     position: relative;
     width: 200px;
     margin: 0 auto;
@@ -146,10 +151,17 @@ box-shadow: inset 0 3px 8px rgba(0,0,0,0.8);
     list-style: none;
     margin: 0;
     padding: 0;
+    position: absolute;
 }
+
 .roll-area ul>li{
     padding: 0 4px 4px 4px;
     float: left;
+    position: relative;
+}
+
+.roll-area ul>li:first-child{
+    padding-top:4px;
 }
 
 .roll-area ul>li img{
@@ -157,20 +169,25 @@ box-shadow: inset 0 3px 8px rgba(0,0,0,0.8);
     height: 100px;
 }
 
-.show-y{
-    overflow-y: auto;
-    overflow-x: hidden; 
+.img-name{
+    position: absolute;
+    background: rgba(166,102,96,0.125);
+    bottom: 4px;
+    left: 4px;
+    width: 192px;
+    text-align: center;
+    color:#a66600;
 }
 
-.curr-img{
+.curr-img-hover{
     position: absolute;
     left: 0;
-    top: 100px;
+    top: 0px;
     width: 200px;
     height: 108px;
     border: 4px solid #a66600;
 }
-.curr-img:before{
+.curr-img-hover:before{
     content: '';
     position: absolute;
     top:0px;
