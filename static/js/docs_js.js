@@ -264,7 +264,6 @@ var IS = {
             ccd = 0-bbd;
         }
 
-
         if(inPart == curPart){//rm hover or rm ul up
             //rm hover
             var mv = 0;
@@ -282,16 +281,15 @@ var IS = {
                 }
             }
             if(!mv) IS.run(0, b, c, d, hover);
-            begin = nCurr;
         }else if(inPart > curPart){//rm ul up
             curPart = inPart;
             IS.run(0, b, c, d, hover, 0, 0, bbu, ccu, ddu, tmp);
-            begin = nCurr;
         }else if(inPart < curPart){//rm ul down
             curPart = inPart;
             IS.run(0, b, c, d, hover, 0, 0, bbd, ccd, ddd, tmp);
-            begin = nCurr;
         }
+
+        begin = nCurr; // update begin
     });
 })(jQuery);
 
