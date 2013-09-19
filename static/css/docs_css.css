@@ -1,6 +1,5 @@
 .navbar{
     min-height: 40px;
-    z-index: 3000;
 }
 .navbar-static-top .container, .navbar-fixed-top .container,
 .navbar-fixed-bottom .container, .container{
@@ -145,6 +144,7 @@ box-shadow: inset 0 3px 8px rgba(0,0,0,0.8);
     height: 100%;
     background-color: rgba(0,0,0,0.125);
     z-index: 2000;
+    overflow: hidden;
 }
 
 .roll-area ul{

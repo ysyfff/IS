@@ -164,22 +164,24 @@ var IS = {
             img.css('width', '100%');
         }
     },
-    runDown: function(t, b, c, d, el){
+    run: function(t, b, c, d, el, tt, bb, cc, dd, ell){
         var topDis = new Array($.easing.easeOutBounce(t,b,c,d), 'px');
         el.css('top', topDis.join(''));
         if(t < d){
             t++;
-            setTimeout(function(){IS.runDown(t,b,c,d,el)}, 10);
+            setTimeout(function(){IS.run(t,b,c,d,el,tt,bb,cc,dd,ell)}, 10);
+        }else if(ell){
+            IS.runUL(tt, bb, cc, dd, ell);
         }
     },
-    runUp: function(t, b, c, d, el){
-        var topDis = new Array($.easing.easeInBounce(t,b,c,d), 'px');
-        el.css('top', topDis.join(''));
-        if(t < d){
-            t++;
-            setTimeout(function(){IS.runUp(t,b,c,d,el)}, 10);
+    runUL: function(tt, bb, cc, dd, ell){
+        var topDis = new Array($.easing.easeOutBounce(tt,bb,cc,dd), 'px');
+        ell.css('top', topDis.join(''));
+        if(tt < dd){
+            tt++;
+            setTimeout(function(){IS.runUL(tt,bb,cc,dd,ell)}, 10);
         }
-    }
+    },
 };
 
 //nav的事件委托
@@ -218,7 +220,7 @@ var IS = {
     }
 })(jQuery);
 
-//rmHover的事件委托
+//rmHover的事件委托 复杂版
 (function($){
     var iHeight = 104,
         area = $('#roll-area'),
@@ -229,33 +231,73 @@ var IS = {
         nSee = parseInt(height/iHeight),
         nImg = ul.find('li').length,
         nPart = parseInt(nImg/nSee),
-        curPart = 0, t, b, c, d, begin=0;
+        curPart = 0, b, c, d, begin=0, bb,
+        cc, dd, upest = (nSee - nImg)*iHeight;
+        if(nSee == height/iHeight) nSee = nSee-2;
+        else nSee = nSee-1;
     ul.delegate('li', 'click', function(){
         var the = $(this),
             nCurr = the.data('seq'),
             inPart = parseInt(nCurr/nSee);
 
-        if(inPart == curPart){//just rm hover
-            /*return c*(t/=d)*t + b;*/
-            /*t: current time（当前时间）；
-              b: beginning value（初始值）；
-              c: change in value（变化量）；
-              d: duration（持续时间）。*/
-            t = 0;
-            b = begin*iHeight; //0
-            c = (nCurr-begin)*iHeight;//104
-            d = iHeight;//1
-            
-            if(begin < nCurr) IS.runDown(t, b, c, d, hover);
-            else if(begin > nCurr) IS.runUp(t, b, c, d, hover);
+        if(inPart == curPart){//rm hover or rm ul up
+            //rm hover
+            b = begin*iHeight;
+            c = (nCurr-begin)*iHeight;
+            d = iHeight;
+
+            IS.run(0, b, c, d, hover);
             begin = nCurr;
-        }else if(inPart > curPart){//rm down ul
+
+            if(nCurr > 0){// in the same area
+                var curTop = tmp.css('top');
+                //at top
+                if((new Array(0-nCurr*iHeight, 'px')).join('') == curTop){
+                    
+                    bb = -nCurr*iHeight;
+                    cc = nSee*iHeight;
+                    if(bb+cc>0){
+                        cc = 0-bb;
+                    }
+                    dd = iHeight;
+
+                    IS.runUL( 0, bb, cc, dd, tmp);
+                    begin = nCurr;
+                }
+            }
+        }else if(inPart > curPart){//rm ul up
             curPart = inPart;
-            console.log(curPart, 'down');
-        }else if(inPart < curPart){//rm up ul
+            b = begin*iHeight;
+            c = (nCurr-begin)*iHeight;
+            d = iHeight;
+
+            bb = (nSee-nCurr)*iHeight;
+            cc = (1-nSee)*iHeight;
+            if(bb+cc<upest){
+                bb = upest-cc;
+            }
+            dd = iHeight;
+
+            IS.run(0, b, c, d, hover, 0, bb, cc, dd, tmp);
+            begin = nCurr;
+        }else if(inPart < curPart){//rm ul down
             curPart = inPart;
-            console.log(curPart, 'up');
+
+            b = begin*iHeight;
+            c = (nCurr-begin)*iHeight;
+            d = iHeight;
+
+            bb = -nCurr*iHeight;
+            cc = nSee*iHeight;
+            if(bb+cc>0){
+                cc = 0-bb;
+            }
+            dd = iHeight;
+
+            IS.run(0, b, c, d, hover, 0, bb, cc, dd, tmp);
+            begin = nCurr;
         }
     });
 })(jQuery);
+
 
