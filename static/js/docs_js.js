@@ -133,8 +133,33 @@ jQuery.extend( jQuery.easing,
 
 var IS = {
     imgMiddle: function(){
-        var width = new Array($('#main-img').width(), 'px');
-        $('#is-img-inner').css('width', width.join(''));
+        var left = $('#left-content'),
+            mainImg = $('#is-img-inner'),
+            img = $('#main-img'),
+            leftWidth = left.width(),
+            leftHeight = left.height(),
+            imgWidth = img.width(),
+            imgHeight = img.height(),
+            width, height;
+
+        if(imgWidth > leftWidth){
+            width = (new Array(leftWidth, 'px')).join('');
+            mainImg.css('width', width);
+            img.css('width', width);
+        }else{
+            console.log('zhe', imgWidth)
+            width = (new Array(imgWidth, 'px')).join('');
+            mainImg.css('width', width);
+        }
+        if(imgHeight > leftHeight){
+            height = (new Array(leftHeight, 'px')).join('');
+            mainImg.css('height', height);
+            img.css('height', height);
+        }else{
+            console.log('height', imgHeight)
+            height = (new Array(imgHeight, 'px')).join('');
+            mainImg.css('height', height);
+        }
     },
     //resize防抖
     debounce: function(func, wait, immediate){
@@ -225,6 +250,7 @@ var IS = {
 //rmHover的事件委托 复杂版
 (function($){
     var iHeight = 104,
+        mainImg = $('#is-img-inner'),
         main = $('#main-img'),
         area = $('#roll-area'),
         tmp = $('#roll-tmp'),
@@ -243,7 +269,10 @@ var IS = {
             nCurr = the.data('seq'),
             inPart = parseInt(nCurr/nSee);
 
+        main.removeAttr('style');
+        mainImg.removeAttr('style');
         main.attr('src', the.find('img').attr('src'));
+        IS.imgMiddle();
         //cal the common param
         var b = begin*iHeight,
             c = (nCurr-begin)*iHeight,
