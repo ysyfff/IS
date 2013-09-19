@@ -1,38 +1,3 @@
-var IS = {
-    imgMiddle: function(){
-        var width = new Array($('#main-img').width(), 'px');
-        $('#is-img-inner').css('width', width.join(''));
-    },
-    //resize防抖
-    debounce: function(func, wait, immediate){
-        var timeout;
-        return function(){
-            var context = this, args = arguments;
-            var later = function(){
-                timeout = null;
-                if(!immediate) func.apply(context, args);
-            };
-            var callNow = immediate && !timeout;
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-            if(callNow) func.apply(context, args);
-        };
-    },
-    //ensure imgWidth <= leftWidth
-    smallerImg: function(){
-        var left = $('#left-content'),
-            img = $('#main-img'),
-            leftWidth = left.width(),
-            imgWidth = img.width();
-        if(imgWidth >= leftWidth){
-            var IW = new Array(leftWidth, 'px');
-            img.css('width', IW.join(''));
-        }else{
-            img.css('width', '100%');
-        }
-    },
-    
-};
 
 jQuery.easing['jswing'] = jQuery.easing['swing'];
 
@@ -165,6 +130,58 @@ jQuery.extend( jQuery.easing,
         return jQuery.easing.easeOutBounce (t*2-d, 0, c, d) * .5 + c*.5 + b;
     }
 });
+
+var IS = {
+    imgMiddle: function(){
+        var width = new Array($('#main-img').width(), 'px');
+        $('#is-img-inner').css('width', width.join(''));
+    },
+    //resize防抖
+    debounce: function(func, wait, immediate){
+        var timeout;
+        return function(){
+            var context = this, args = arguments;
+            var later = function(){
+                timeout = null;
+                if(!immediate) func.apply(context, args);
+            };
+            var callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if(callNow) func.apply(context, args);
+        };
+    },
+    //ensure imgWidth <= leftWidth
+    smallerImg: function(){
+        var left = $('#left-content'),
+            img = $('#main-img'),
+            leftWidth = left.width(),
+            imgWidth = img.width();
+        if(imgWidth >= leftWidth){
+            var IW = new Array(leftWidth, 'px');
+            img.css('width', IW.join(''));
+        }else{
+            img.css('width', '100%');
+        }
+    },
+    runDown: function(t, b, c, d, el){
+        var topDis = new Array($.easing.easeOutBounce(t,b,c,d), 'px');
+        el.css('top', topDis.join(''));
+        if(t < d){
+            t++;
+            setTimeout(function(){IS.runDown(t,b,c,d,el)}, 10);
+        }
+    },
+    runUp: function(t, b, c, d, el){
+        var topDis = new Array($.easing.easeInBounce(t,b,c,d), 'px');
+        el.css('top', topDis.join(''));
+        if(t < d){
+            t++;
+            setTimeout(function(){IS.runUp(t,b,c,d,el)}, 10);
+        }
+    }
+};
+
 //nav的事件委托
 (function($){
     $('#is-nav').delegate('li', 'click', function(){
@@ -224,31 +241,13 @@ jQuery.extend( jQuery.easing,
               b: beginning value（初始值）；
               c: change in value（变化量）；
               d: duration（持续时间）。*/
-            var topDis;
             t = 0;
             b = begin*iHeight; //0
             c = (nCurr-begin)*iHeight;//104
             d = iHeight;//1
-            runDown = function(){
-                topDis = new Array($.easing.easeOutBounce(t,b,c,d), 'px');
-                hover.css('top', topDis.join(''));
-                if(t < d){
-                   
-                    t++;
-                    setTimeout(runDown, 10);
-                }
-            }
-            runUp = function(){
-                topDis = new Array($.easing.easeInBounce(t,b,c,d), 'px');
-                hover.css('top', topDis.join(''));
-                if(t < d){
-                   
-                    t++;
-                    setTimeout(runUp, 10);
-                }
-            }
-            if(begin < nCurr) runDown();
-            else if(begin > nCurr) runUp();
+            
+            if(begin < nCurr) IS.runDown(t, b, c, d, hover);
+            else if(begin > nCurr) IS.runUp(t, b, c, d, hover);
             begin = nCurr;
         }else if(inPart > curPart){//rm down ul
             curPart = inPart;
