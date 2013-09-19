@@ -165,7 +165,6 @@ var IS = {
         }
     },
     run: function(t, b, c, d, el, mv, tt, bb, cc, dd, ell){
-        console.log(t, b, c, d, el, mv, tt, bb, cc, dd, ell);
         var topDis = new Array($.easing.easeOutBounce(t,b,c,d), 'px');
         el.css('top', topDis.join(''));
         if(t < d){
@@ -226,6 +225,7 @@ var IS = {
 //rmHover的事件委托 复杂版
 (function($){
     var iHeight = 104,
+        main = $('#main-img'),
         area = $('#roll-area'),
         tmp = $('#roll-tmp'),
         ul = $('#roll-ul'),
@@ -243,6 +243,7 @@ var IS = {
             nCurr = the.data('seq'),
             inPart = parseInt(nCurr/nSee);
 
+        main.attr('src', the.find('img').attr('src'));
         //cal the common param
         var b = begin*iHeight,
             c = (nCurr-begin)*iHeight,
