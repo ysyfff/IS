@@ -230,13 +230,45 @@ var tag = (function(){
 })();
 
 var IS = {
-    rollMain: $('#roll-main'),
     imgID: 0,
+    dirt: 'left',
     innerId: function(){
         return $((new Array('#inner', IS.imgID)).join(''));
     },
     imgId: function(){
         return $((new Array('#img', IS.imgID)).join(''));
+    },
+    //ensure imgWidth <= leftWidth
+    generateStyleValue: function(el){
+        var width = el.width(),
+            height = el.height();
+console.log(width);
+        if(IS.dirt=='left') return (new Array('left:', width, 'px')).join('');
+        else if(IS.dirt=='right') return (new Array('top', 0-width, 'px')).join('');
+        else if(IS.dirt=='top') return (new Array('top', 0-height, 'px')).join('');
+        else if(IS.dirt=='bottom') return (new Array('top', height, 'px')).join('');
+    },
+    smallerImg: function(){
+        var rollMain = $('#roll-main'),
+            img = IS.imgId(),
+            leftWidth = rollMain.width(),
+            imgWidth = img.width();
+        $.each(rollMain.find('img'), function(i, img){
+            img = $(img);
+            if(imgWidth >= leftWidth){
+                img.css('width', (new Array(leftWidth, 'px')).join(''));
+            }else{
+                img.css('width', '100%');
+            }
+        });
+        var scdImg = rollMain.find('.img-area')[1];
+
+        if(scdImg) {
+            scdImg = $(scdImg);
+            scdImg.removeAttr('style');
+            console.log(scdImg, IS.generateStyleValue(rollMain))
+            scdImg.attr('style', IS.generateStyleValue(rollMain));
+        }
     },
     imgMiddle: function(){
         var left = $('#left-content'),
@@ -287,19 +319,6 @@ var IS = {
             window.attachEvent('on'+action, func);
         }
     },
-    //ensure imgWidth <= leftWidth
-    smallerImg: function(){
-        var left = $('#left-content'),
-            img = IS.imgId(IS.imgID),
-            leftWidth = left.width(),
-            imgWidth = img.width();
-        if(imgWidth >= leftWidth){
-            var IW = new Array(leftWidth, 'px');
-            img.css('width', IW.join(''));
-        }else{
-            img.css('width', '100%');
-        }
-    },
     run: function(t, b, c, d, el, mv, tt, bb, cc, dd, ell){
         var topDis = new Array($.easing.easeOutBounce(t,b,c,d), 'px');
         el.css('top', topDis.join(''));
@@ -320,9 +339,14 @@ var IS = {
             setTimeout(function(){IS.runUL(tt,bb,cc,dd,ell)}, 10);
         }
     },
-    createImgDiv: function(src, innerId, imgId){
+    createImgDiv: function(src, innerId, imgId, dir){
         var area, outer, middle, inner, img;
+        var rollMain = $('#roll-main');
+            
         area = tag('div').attr('class', 'img-area');
+        //add area's style
+        if(dir) area.attr('style', IS.generateStyleValue(rollMain));
+
         outer = tag('div').attr('class', 'is-outer');
         middle = tag('div').attr('class', 'is-middle');
         inner = tag('div').attr('class', 'is-img-inner').attr('id', innerId);
@@ -334,11 +358,11 @@ var IS = {
         var src = $('#init-img').attr('src'),
             innerId = 'inner0',
             imgId = 'img0';
-        IS.rollMain.html(IS.createImgDiv(src, innerId, imgId).toString());
+        $('#roll-main').html(IS.createImgDiv(src, innerId, imgId).toString());
         IS.imgMiddle();
     },
-    append2ImgDiv: function(src, innerId, imgId){
-        IS.rollMain.push(IS.createImgDiv(src, innerId, imgId).toString());
+    append2ImgDiv: function(src, innerId, imgId, dir){
+        $('#roll-main').append(IS.createImgDiv(src, innerId, imgId, dir).toString());
         IS.imgMiddle();
     }
 };
@@ -394,13 +418,12 @@ var IS = {
             nCurr = the.data('seq'),
             inPart = parseInt(nCurr/nSee);
         //generoate the second img
-        /*IS.imgID = nCurr;*/
-        oInner = IS.innerId();
-        oImg = IS.imgId();
-        oInner.removeAttr('style');
-        oImg.removeAttr('style');
-        oImg.attr('src', the.find('img').attr('src'));
-        IS.imgMiddle();
+        IS.imgID = nCurr;
+        IS.append2ImgDiv(the.find('img').attr('src'),
+            (new Array('inner', IS.imgID)).join(''),
+            (new Array('img', nCurr)).join(''),
+            'right');
+    
         //cal the common param
         var b = begin*iHeight,
             c = (nCurr-begin)*iHeight,
