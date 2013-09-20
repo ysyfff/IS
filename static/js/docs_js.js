@@ -230,10 +230,16 @@ var tag = (function(){
 })();
 
 var IS = {
-    imgMiddle: function(){
+    innerId: function(imgID){
+        return $((new Array('#inner', imgID)).join(''));
+    },
+    imgId: function(imgID){
+        return $((new Array('#img', imgID)).join(''));
+    },
+    imgMiddle: function(imgID){
         var left = $('#left-content'),
-            mainImg = $('#is-img-inner'),
-            img = $('#main-img'),
+            inner = IS.innerId(imgID),
+            img = IS.imgId(imgID),//generate area and img ID
             leftWidth = left.width(),
             leftHeight = left.height(),
             imgWidth = img.width(),
@@ -242,19 +248,19 @@ var IS = {
 
         if(imgWidth > leftWidth){
             width = (new Array(leftWidth, 'px')).join('');
-            mainImg.css('width', width);
+            inner.css('width', width);
             img.css('width', width);
         }else{
             width = (new Array(imgWidth, 'px')).join('');
-            mainImg.css('width', width);
+            inner.css('width', width);
         }
         if(imgHeight > leftHeight){
             height = (new Array(leftHeight, 'px')).join('');
-            mainImg.css('height', height);
+            inner.css('height', height);
             img.css('height', height);
         }else{
             height = (new Array(imgHeight, 'px')).join('');
-            mainImg.css('height', height);
+            inner.css('height', height);
         }
     },
     //resize防抖
@@ -357,8 +363,9 @@ IS.createImgDiv('s', '1', '2', '3');
 (function($){
     var iHeight = 104,
         duration = iHeight/2,
-        mainImg = $('#is-img-inner'),
-        main = $('#main-img'),
+        nCurImg = 0,
+        oInner = IS.innerId(nCurImg),
+        oImg = IS.imgId(nCurImg),
         area = $('#roll-area'),
         tmp = $('#roll-tmp'),
         ul = $('#roll-ul'),
@@ -376,10 +383,10 @@ IS.createImgDiv('s', '1', '2', '3');
             nCurr = the.data('seq'),
             inPart = parseInt(nCurr/nSee);
 
-        main.removeAttr('style');
-        mainImg.removeAttr('style');
-        main.attr('src', the.find('img').attr('src'));
-        IS.imgMiddle();
+        oInner.removeAttr('style');
+        oImg.removeAttr('style');
+        oImg.attr('src', the.find('img').attr('src'));
+        IS.imgMiddle(0);
         //cal the common param
         var b = begin*iHeight,
             c = (nCurr-begin)*iHeight,
