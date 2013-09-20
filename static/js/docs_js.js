@@ -230,16 +230,18 @@ var tag = (function(){
 })();
 
 var IS = {
-    innerId: function(imgID){
-        return $((new Array('#inner', imgID)).join(''));
+    rollMain: $('#roll-main'),
+    imgID: 0,
+    innerId: function(){
+        return $((new Array('#inner', IS.imgID)).join(''));
     },
-    imgId: function(imgID){
-        return $((new Array('#img', imgID)).join(''));
+    imgId: function(){
+        return $((new Array('#img', IS.imgID)).join(''));
     },
-    imgMiddle: function(imgID){
+    imgMiddle: function(){
         var left = $('#left-content'),
-            inner = IS.innerId(imgID),
-            img = IS.imgId(imgID),//generate area and img ID
+            inner = IS.innerId(IS.imgID),
+            img = IS.imgId(IS.imgID),//generate area and img ID
             leftWidth = left.width(),
             leftHeight = left.height(),
             imgWidth = img.width(),
@@ -278,10 +280,17 @@ var IS = {
             if(callNow) func.apply(context, args);
         };
     },
+    simpleAddEvent: function(action, func){
+       if(document.addEventListener){ //for firefox and chrome
+            window.addEventListener(action, func, false);
+        }else if(window.attachEvent){ //for ie
+            window.attachEvent('on'+action, func);
+        }
+    },
     //ensure imgWidth <= leftWidth
     smallerImg: function(){
         var left = $('#left-content'),
-            img = $('#main-img'),
+            img = IS.imgId(IS.imgID),
             leftWidth = left.width(),
             imgWidth = img.width();
         if(imgWidth >= leftWidth){
@@ -321,6 +330,13 @@ var IS = {
         area.push(outer.push(middle.push(inner.push(img))));
         console.log(area.toString());
     },
+    initImg: function(){
+        var src = $('#init-img').attr('src'),
+            areaId = 'area0',
+            innerId = 'inner0',
+            mainId = 'main0';
+        rollMain.html(createImgDiv(src, areaId, innerId, mainId).toString());
+    }
 };
 IS.createImgDiv('s', '1', '2', '3');
 //nav的事件委托
@@ -348,15 +364,9 @@ IS.createImgDiv('s', '1', '2', '3');
 
 //注册resize事件
 (function($){
-    if(document.addEventListener){ //for firefox and chrome
-        window.addEventListener('resize', IS.debounce(function(event){
-            IS.smallerImg();
-        }, 300), false);
-    }else if(window.attachEvent){ //for ie
-        window.attachEvent('onresize', IS.debounce(function(event){
-            IS.smallerImg();
-        }, 300));
-    }
+    IS.simpleAddEvent('resize', IS.debounce(function(event){
+        IS.smallerImg();
+    }, 300));
 })(jQuery);
 
 //rmHover的事件委托 复杂版
