@@ -58,24 +58,7 @@
           </div>
           <!--main-img-area-->
           <div id="roll-main">
-            <div class="img-area">
-              <div class="is-outer">
-                <div class="is-middle">
-                  <div class="is-img-inner" id="inner0">
-                    <img src="/media/jchen/jQuery/jquery-img/$.each的优美用法2.png" id="img0">
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="img-area" id="scd-img">
-              <div class="is-outer">
-                <div class="is-middle">
-                  <div class="is-img-inner" id="is-img-inner2">
-                    <img src="/media/jchen/jQuery/jquery-img/$.each的优美用法2.png" id="main-img2">
-                  </div>
-                </div>
-              </div>
-            </div>
+            
           </div>
         </div>
 
@@ -145,8 +128,8 @@
     <script src="{{STATIC_URL}}tool/js/bootstrap.js"></script>
     <script src="{{STATIC_URL}}js/docs_js.js"></script>
     <script>
-    window.onload = IS.imgMiddle();
     
+    IS.simpleAddEvent('load', IS.initImg());
     </script>
 </body>
 </html>

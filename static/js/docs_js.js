@@ -240,14 +240,14 @@ var IS = {
     },
     imgMiddle: function(){
         var left = $('#left-content'),
-            inner = IS.innerId(IS.imgID),
-            img = IS.imgId(IS.imgID),//generate area and img ID
+            inner = IS.innerId(),
+            img = IS.imgId(),//generate area and img ID
             leftWidth = left.width(),
             leftHeight = left.height(),
             imgWidth = img.width(),
             imgHeight = img.height(),
             width, height;
-
+console.log(inner, img)
         if(imgWidth > leftWidth){
             width = (new Array(leftWidth, 'px')).join('');
             inner.css('width', width);
@@ -320,25 +320,25 @@ var IS = {
             setTimeout(function(){IS.runUL(tt,bb,cc,dd,ell)}, 10);
         }
     },
-    createImgDiv: function(src, areaId, innerId, mainId){
+    createImgDiv: function(src, areaId, innerId, imgId){
         var area, outer, middle, inner, img;
         area = tag('div').attr('class', 'img-area').attr('id', areaId);
         outer = tag('div').attr('class', 'is-outer');
         middle = tag('div').attr('class', 'is-middle');
         inner = tag('div').attr('class', 'is-img-inner').attr('id', innerId);
-        img = tag('img', 's').attr('id', mainId).attr('src', src);
+        img = tag('img', 's').attr('id', imgId).attr('src', src);
         area.push(outer.push(middle.push(inner.push(img))));
-        console.log(area.toString());
+        return area;
     },
     initImg: function(){
         var src = $('#init-img').attr('src'),
             areaId = 'area0',
             innerId = 'inner0',
-            mainId = 'main0';
-        rollMain.html(createImgDiv(src, areaId, innerId, mainId).toString());
+            imgId = 'img0';
+        IS.rollMain.html(IS.createImgDiv(src, areaId, innerId, imgId).toString());
+        IS.imgMiddle();
     }
 };
-IS.createImgDiv('s', '1', '2', '3');
 //nav的事件委托
 (function($){
     $('#is-nav').delegate('li', 'click', function(){
@@ -373,9 +373,7 @@ IS.createImgDiv('s', '1', '2', '3');
 (function($){
     var iHeight = 104,
         duration = iHeight/2,
-        nCurImg = 0,
-        oInner = IS.innerId(nCurImg),
-        oImg = IS.imgId(nCurImg),
+        oInner, oImg,
         area = $('#roll-area'),
         tmp = $('#roll-tmp'),
         ul = $('#roll-ul'),
@@ -393,10 +391,12 @@ IS.createImgDiv('s', '1', '2', '3');
             nCurr = the.data('seq'),
             inPart = parseInt(nCurr/nSee);
 
+        oInner = IS.innerId();
+        oImg = IS.imgId();
         oInner.removeAttr('style');
         oImg.removeAttr('style');
         oImg.attr('src', the.find('img').attr('src'));
-        IS.imgMiddle(0);
+        IS.imgMiddle();
         //cal the common param
         var b = begin*iHeight,
             c = (nCurr-begin)*iHeight,
