@@ -135,7 +135,14 @@ box-shadow: inset 0 3px 8px rgba(0,0,0,0.8);
 #roll-tmp{
     position: absolute;
 }
-
+#roll-main{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+}
 .roll-area{    
     position: relative;
     width: 200px;

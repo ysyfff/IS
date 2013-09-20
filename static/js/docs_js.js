@@ -131,6 +131,104 @@ jQuery.extend( jQuery.easing,
     }
 });
 
+var tag = (function(){
+    var Tag = function(tagName, tagAttrs, single){
+        var _tagName, _tagAttrs, _single, _brother=[], _childTag=[];
+        _tagName = tagName;
+        _tagAttrs = tagAttrs;
+        _single = single;
+        return {
+            isMe: function(){},
+            attr: function(key, value){
+                if(value === undefined) return _tagAttrs[key];
+                else _tagAttrs[key] = value;
+                return this;
+            },
+            push: function(inserted_tag){//back
+                _childTag.push(inserted_tag);
+                return this;
+            },
+            unshift: function(inserted_tag){//ahend
+                _childTag.unshift(inserted_tag);
+                return this;
+            },
+            concat: function(inserted_tag){//concat
+                _brother = _brother.concat(inserted_tag);
+                return this;
+            },
+            toString: function(){//selfHtml
+                var arr = new Array();
+                var tmp = new Array();
+                var arrlen = 0;
+                arr[arrlen++] = '<';
+                arr[arrlen++] = _tagName;
+                for (var key in _tagAttrs){
+                    tmp[0] = ' ';
+                    tmp[1] = key;
+                    tmp[2] = '="';
+                    tmp[3] = _tagAttrs[key];
+                    tmp[4] = '"';
+                    arr[arrlen++] = tmp.join('');
+                }
+
+                arr[arrlen++] = _single ? ' />' : '>';
+                
+                _childTag.map(function(inserted_tag){
+                    if(inserted_tag!=undefined) arr[arrlen++] = inserted_tag.toString();
+                });
+
+                if(!_single){
+                    arr[arrlen++] = '</';
+                    arr[arrlen++] = _tagName;    
+                    arr[arrlen++] = '>';
+                }
+
+                _brother.map(function(concated_tag){
+                    if(concated_tag!=undefined) arr[arrlen++] = concated_tag.toString();
+                });
+                return arr.join('');
+            },
+            html: function() {//childHtml
+                var arr = new Array();
+                var arrlen = 0;
+                _childTag.map(function(inserted_tag){
+                    arr[arrlen++] = inserted_tag.toString();
+                });
+                return arr.join('');
+            },
+        }
+    };
+    return function(tagName){
+        var attrs = {}, tObj, i=1;
+        if(arguments[1]!='s'){//is not a single tag
+            if(arguments[1] instanceof Object){
+                try{
+                    arguments[1].isMe();
+                }catch(e){
+                    attrs = arguments[1];
+                    i = 2;
+                }
+            }
+            tObj = Tag(tagName, attrs);
+        }else{ // is a single tag
+            i = 2; //why 2? because of argument[1]='s'
+            if(arguments[2] && arguments[2] instanceof Object){ //arguments[2] is {} object
+                try{
+                    arguments[2].isMe();
+                }catch(e){
+                    attrs = arguments[2]; //why 2? because of argument[1]='s'
+                    i = 3;
+                }
+            }
+            tObj = Tag(tagName, attrs, true);
+        }
+        for(; i<arguments.length; i++) { //push child: like tag('div', tag('a', 'zhe'));
+            tObj.push(arguments[i]);
+        }
+        return tObj;
+    };
+})();
+
 var IS = {
     imgMiddle: function(){
         var left = $('#left-content'),
@@ -147,7 +245,6 @@ var IS = {
             mainImg.css('width', width);
             img.css('width', width);
         }else{
-            console.log('zhe', imgWidth)
             width = (new Array(imgWidth, 'px')).join('');
             mainImg.css('width', width);
         }
@@ -156,7 +253,6 @@ var IS = {
             mainImg.css('height', height);
             img.css('height', height);
         }else{
-            console.log('height', imgHeight)
             height = (new Array(imgHeight, 'px')).join('');
             mainImg.css('height', height);
         }
@@ -209,8 +305,18 @@ var IS = {
             setTimeout(function(){IS.runUL(tt,bb,cc,dd,ell)}, 10);
         }
     },
+    createImgDiv: function(src, areaId, innerId, mainId){
+        var area, outer, middle, inner, img;
+        area = tag('div').attr('class', 'img-area').attr('id', areaId);
+        outer = tag('div').attr('class', 'is-outer');
+        middle = tag('div').attr('class', 'is-middle');
+        inner = tag('div').attr('class', 'is-img-inner').attr('id', innerId);
+        img = tag('img', 's').attr('id', mainId).attr('src', src);
+        area.push(outer.push(middle.push(inner.push(img))));
+        console.log(area.toString());
+    },
 };
-
+IS.createImgDiv('s', '1', '2', '3');
 //nav的事件委托
 (function($){
     $('#is-nav').delegate('li', 'click', function(){
