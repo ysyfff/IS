@@ -247,7 +247,7 @@ var IS = {
             imgWidth = img.width(),
             imgHeight = img.height(),
             width, height;
-console.log(inner, img)
+
         if(imgWidth > leftWidth){
             width = (new Array(leftWidth, 'px')).join('');
             inner.css('width', width);
@@ -320,9 +320,9 @@ console.log(inner, img)
             setTimeout(function(){IS.runUL(tt,bb,cc,dd,ell)}, 10);
         }
     },
-    createImgDiv: function(src, areaId, innerId, imgId){
+    createImgDiv: function(src, innerId, imgId){
         var area, outer, middle, inner, img;
-        area = tag('div').attr('class', 'img-area').attr('id', areaId);
+        area = tag('div').attr('class', 'img-area');
         outer = tag('div').attr('class', 'is-outer');
         middle = tag('div').attr('class', 'is-middle');
         inner = tag('div').attr('class', 'is-img-inner').attr('id', innerId);
@@ -332,10 +332,13 @@ console.log(inner, img)
     },
     initImg: function(){
         var src = $('#init-img').attr('src'),
-            areaId = 'area0',
             innerId = 'inner0',
             imgId = 'img0';
-        IS.rollMain.html(IS.createImgDiv(src, areaId, innerId, imgId).toString());
+        IS.rollMain.html(IS.createImgDiv(src, innerId, imgId).toString());
+        IS.imgMiddle();
+    },
+    append2ImgDiv: function(src, innerId, imgId){
+        IS.rollMain.push(IS.createImgDiv(src, innerId, imgId).toString());
         IS.imgMiddle();
     }
 };
@@ -390,7 +393,8 @@ console.log(inner, img)
         var the = $(this),
             nCurr = the.data('seq'),
             inPart = parseInt(nCurr/nSee);
-
+        //generoate the second img
+        /*IS.imgID = nCurr;*/
         oInner = IS.innerId();
         oImg = IS.imgId();
         oInner.removeAttr('style');
