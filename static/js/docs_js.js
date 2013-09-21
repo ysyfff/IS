@@ -242,7 +242,7 @@ var IS = {
     generateStyleValue: function(el){
         var width = el.width(),
             height = el.height();
-console.log(width);
+            
         if(IS.dirt=='left') return (new Array('left:', width, 'px')).join('');
         else if(IS.dirt=='right') return (new Array('top', 0-width, 'px')).join('');
         else if(IS.dirt=='top') return (new Array('top', 0-height, 'px')).join('');
@@ -253,21 +253,11 @@ console.log(width);
             img = IS.imgId(),
             leftWidth = rollMain.width(),
             imgWidth = img.width();
-        $.each(rollMain.find('img'), function(i, img){
-            img = $(img);
-            if(imgWidth >= leftWidth){
-                img.css('width', (new Array(leftWidth, 'px')).join(''));
-            }else{
-                img.css('width', '100%');
-            }
-        });
-        var scdImg = rollMain.find('.img-area')[1];
-
-        if(scdImg) {
-            scdImg = $(scdImg);
-            scdImg.removeAttr('style');
-            console.log(scdImg, IS.generateStyleValue(rollMain))
-            scdImg.attr('style', IS.generateStyleValue(rollMain));
+        
+        if(imgWidth >= leftWidth){
+            img.css('width', (new Array(leftWidth, 'px')).join(''));
+        }else{
+            img.css('width', '100%');
         }
     },
     imgMiddle: function(){
