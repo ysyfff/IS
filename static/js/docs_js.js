@@ -242,7 +242,7 @@ var IS = {
     generateStyleValue: function(el){
         var width = el.width(),
             height = el.height();
-            
+
         if(IS.dirt=='left') return (new Array('left:', width, 'px')).join('');
         else if(IS.dirt=='right') return (new Array('top', 0-width, 'px')).join('');
         else if(IS.dirt=='top') return (new Array('top', 0-height, 'px')).join('');
@@ -309,16 +309,14 @@ var IS = {
             obj.attachEvent('on'+action, func);
         }
     },
-    run: function(t, b, c, d, el, mv, tt, bb, cc, dd, ell){
+    run: function(t, b, c, d, el, tt, bb, cc, dd, ell){
         var topDis = new Array($.easing.easeOutBounce(t,b,c,d), 'px');
         el.css('top', topDis.join(''));
         if(t < d){
             t++;
-            setTimeout(function(){IS.run(t,b,c,d,el,mv,tt,bb,cc,dd,ell)}, 10);
+            setTimeout(function(){IS.run(t,b,c,d,el,tt,bb,cc,dd,ell)}, 10);
         }else if(ell){
             IS.runUL(tt, bb, cc, dd, ell);
-        }else if(mv){
-             IS.runUL(tt, bb, cc, dd, ell);
         }
     },
     runUL: function(tt, bb, cc, dd, ell){
@@ -387,7 +385,7 @@ var IS = {
 })(jQuery);
 
 //rmHover的事件委托 复杂版
-(function($){
+/*(function($){
     var iHeight = 104,
         duration = iHeight/2,
         oInner, oImg,
@@ -463,5 +461,74 @@ var IS = {
         begin = nCurr; // update begin
     });
 })(jQuery);
+*/
 
+//rmHover的事件委托 简单版
+(function($){
+    var iHeight = 104,
+        duration = iHeight/2,
+        oInner, oImg,
+        area = $('#roll-area'),
+        tmp = $('#roll-tmp'),
+        ul = $('#roll-ul'),
+        hover = $('#curr-img-hover'),
+        height = area.height(),
+        nSee = parseInt(height/iHeight), nTmpSee,
+        nImg = ul.find('li').length,
+        begin=0, upest = (nSee - nImg)*iHeight;
+
+        if(nSee == height/iHeight) {
+            nTmpSee = nSee-2;
+            nSee--;
+        } else {
+            nTmpSee = nSee-1;
+        }
+
+    ul.delegate('li', 'click', function(){
+        var the = $(this),
+            nCurr = the.data('seq');
+        //generoate the second img
+        IS.imgID = nCurr;
+        IS.append2ImgDiv(the.find('img').attr('src'),
+            (new Array('inner', IS.imgID)).join(''),
+            (new Array('img', IS.imgID)).join(''),
+            'right');
+
+        //cal the common param
+        var b = begin*iHeight,
+            c = (nCurr-begin)*iHeight,
+            d = duration;
+
+        var curTop = tmp.css('top');
+        curTop = (curTop=='auto'?'0px':curTop);
+        //at top
+        var nTop=(new Array(0-nCurr*iHeight, 'px')).join(''),
+            nBottom=(new Array(0-(nCurr-nSee)*iHeight, 'px')).join('');
+
+        if(nTop == curTop){
+            //cal bb down
+            var bbd = -nCurr*iHeight,
+                ccd = nTmpSee*iHeight;
+            if(bbd+ccd>0){
+                ccd = 0-bbd;
+            }
+            IS.run(0, b, c, d, hover, 0, bbd, ccd, d, tmp);
+        }
+        //at bottom
+        else if(nBottom == curTop){
+             //cal bb up
+            var bbu = (nTmpSee+1-nCurr)*iHeight,
+                ccu = 0-nTmpSee*iHeight;
+            console.log(bbu, ccu)
+            if(bbu+ccu<upest){
+                bbu = upest-ccu;
+            }
+            IS.run(0, b, c, d, hover, 0, bbu, ccu, d, tmp);
+        }else{
+            IS.run(0, b, c, d, hover);
+        }
+        
+        begin = nCurr; // update begin
+    });
+})(jQuery);
 
