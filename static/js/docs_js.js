@@ -312,11 +312,11 @@ console.log(width);
             if(callNow) func.apply(context, args);
         };
     },
-    simpleAddEvent: function(action, func){
-       if(document.addEventListener){ //for firefox and chrome
-            window.addEventListener(action, func, false);
-        }else if(window.attachEvent){ //for ie
-            window.attachEvent('on'+action, func);
+    simpleAddEvent: function(obj, action, func){
+       if(obj.addEventListener){ //for firefox and chrome
+            obj.addEventListener(action, func, false);
+        }else if(obj.attachEvent){ //for ie
+            obj.attachEvent('on'+action, func);
         }
     },
     run: function(t, b, c, d, el, mv, tt, bb, cc, dd, ell){
